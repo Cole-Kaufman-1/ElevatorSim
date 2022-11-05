@@ -55,6 +55,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 DISTFILES += \
     A3_ElevatorSystem.pro.user
 
-RESOURCES += \ \
-    res/elevator_sim.qrc
-
