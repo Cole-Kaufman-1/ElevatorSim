@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.11.0, 2022-10-28T13:12:17. -->
+<!-- Written by QtCreator 4.11.0, 2022-11-04T22:48:05. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -285,8 +285,9 @@
     </valuelist>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/student/Desktop/A3/A3_ElevatorSystem/A3_ElevatorSystem.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/student/Desktop/A3/A3_ElevatorSystem/A3_ElevatorSystem.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">A3_ElevatorSystem2</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/home/student/Desktop/SharedFolders/sf_A3/A3_Elevator_Sim/A3_ElevatorSystem.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/student/Desktop/SharedFolders/sf_A3/A3_Elevator_Sim/A3_ElevatorSystem.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="bool" key="RunConfiguration.Arguments.multi">false</value>
     <value type="QString" key="RunConfiguration.OverrideDebuggerStartup"></value>

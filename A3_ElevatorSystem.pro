@@ -15,33 +15,37 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+source_dir = src
+forms_dir = ui
+resources_dir = res
+
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp
+    $${source_dir}/main.cpp \
+    $${source_dir}/mainwindow.cpp
 
 HEADERS += \
-    Basic.h \
-    Button.h \
-    CloseDoorButton.h \
-    DestinationButton.h \
-    Display.h \
-    Door.h \
-    ECS.h \
-    Elevator.h \
-    FireButton.h \
-    Floor.h \
-    FloorButton.h \
-    FloorSensor.h \
-    HelpButton.h \
-    IStrategy.h \
-    OpenDoorButton.h \
-    Opportunistic.h \
-    Person.h \
-    Speaker.h \
-    mainwindow.h
+    $${source_dir}/Basic.h \
+    $${source_dir}/Button.h \
+    $${source_dir}/CloseDoorButton.h \
+    $${source_dir}/DestinationButton.h \
+    $${source_dir}/Display.h \
+    $${source_dir}/Door.h \
+    $${source_dir}/ECS.h \
+    $${source_dir}/Elevator.h \
+    $${source_dir}/FireButton.h \
+    $${source_dir}/Floor.h \
+    $${source_dir}/FloorButton.h \
+    $${source_dir}/FloorSensor.h \
+    $${source_dir}/HelpButton.h \
+    $${source_dir}/IStrategy.h \
+    $${source_dir}/OpenDoorButton.h \
+    $${source_dir}/Opportunistic.h \
+    $${source_dir}/Person.h \
+    $${source_dir}/Speaker.h \
+    $${source_dir}/mainwindow.h
 
 FORMS += \
-    mainwindow.ui
+    $${forms_dir}/mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -50,3 +54,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     A3_ElevatorSystem.pro.user
+
+RESOURCES += \ \
+    res/elevator_sim.qrc
+

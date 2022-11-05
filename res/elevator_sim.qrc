@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>buttons/arrow-down-icon-png-24.png</file>
+        <file>buttons/arrow-up-icon-png-24.png</file>
+        <file>buttons/arrow-down-on-icon-png-24.png</file>
+        <file>buttons/arrow-up-on-icon-png-24.png</file>
+        <file>buttons/direction_down_off.png</file>
+        <file>buttons/direction_down_on.png</file>
+        <file>buttons/direction_up_off.png</file>
+        <file>buttons/direction_up_on.png</file>
+        <file>buttons/alarm-button.png</file>
+        <file>buttons/closeDoor.png</file>
+        <file>buttons/fire-button.png</file>
+        <file>buttons/openDoor.png</file>
+        <file>buttons/overweight.png</file>
+        <file>buttons/powerOutage.png</file>
+    </qresource>
+</RCC>
