@@ -3,13 +3,15 @@
 
 #include "Elevator.h"
 
-class CloseDoorButton : public Button {
+class CloseDoorButton {
     public:
-        CloseDoorButton();
+        CloseDoorButton(Elevator* elevator);
         void press();
+        void turnOff();
 
     private:
-        Elevator* Elevator;
+        Elevator* elevator;
+        bool on;
 };
 
 #endif

@@ -1,19 +1,27 @@
 #ifndef ECS_H
 #define ECS_H
 
+#include <iostream>
 #include <vector>
+#include <QObject>
 #include <map>
-#include <string>
 #include "Elevator.h"
 #include "IStrategy.h"
+#include "Floor.h"
 
-class ECS  {
+class Floor;
+
+class ECS : public QObject  {
     public:
+        explicit ECS(QObject *parent = nullptr);
         ECS(int numElevators, int numFloors);
-        std::map<int, std::string> getRequests();
-        std::vector<Elevator> getElevators();
+        ~ECS();
 
-        void floorRequest(const std::string& dir, int floorNum);
+
+        std::map<int, QString> getRequests();
+        std::vector<Elevator*> getElevators();
+
+        void floorRequest(QString, int floorNum);
         void newFloor(int floorNum, int carNum);
         void carRequest(int carNum, int floorNum);
         void readyToMove(int carNum);
@@ -24,14 +32,15 @@ class ECS  {
         void handlePowerOutage(int floorNum, int carNum);
 
     private:
-        std::vector<Elevator> elevators;
-        std::vector<Floor> floors;
-        std::map<int, std::string> FloorRequests;
+        std::vector<Elevator*> elevators;
+        std::vector<Floor*> floors;
+        std::map<int, QString> floorRequests;
         std::map<int, int> carRequests;
         int numElevators;
         int numFloors;
         IStrategy* currentStrategy;
         std::vector<IStrategy> strategies;
+        Q_OBJECT
 
 };
 

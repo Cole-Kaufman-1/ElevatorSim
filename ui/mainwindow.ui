@@ -37,6 +37,12 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="MainWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="layoutDirection">
     <enum>Qt::LeftToRight</enum>
    </property>
@@ -106,7 +112,7 @@
      </item>
     </layout>
    </widget>
-   <widget class="Line" name="Line2">
+   <widget class="Line" name="Line1">
     <property name="geometry">
      <rect>
       <x>444</x>
@@ -128,7 +134,7 @@
       <x>450</x>
       <y>90</y>
       <width>221</width>
-      <height>191</height>
+      <height>194</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="FloorControlView">
@@ -155,7 +161,7 @@
         <string notr="true">color: rgb(0, 0, 0);</string>
        </property>
        <property name="text">
-        <string>Floor Control</string>
+        <string>Current Floor</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -163,7 +169,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="displayPanel_2">
+      <widget class="QLabel" name="FloorDisplay">
        <property name="font">
         <font>
          <family>Source Code Pro</family>
@@ -186,7 +192,7 @@ color: rgb(59, 255, 0);</string>
         <number>0</number>
        </property>
        <property name="text">
-        <string>0</string>
+        <string>1</string>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -197,7 +203,7 @@ color: rgb(59, 255, 0);</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="FloorButtonUp">
        <property name="font">
         <font>
          <pointsize>25</pointsize>
@@ -221,7 +227,7 @@ color: rgb(59, 255, 0);</string>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="FloorButtonDown">
        <property name="font">
         <font>
          <pointsize>25</pointsize>
@@ -262,7 +268,7 @@ color: rgb(59, 255, 0);</string>
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="Line" name="Line2_2">
+   <widget class="Line" name="Line2">
     <property name="geometry">
      <rect>
       <x>222</x>
@@ -306,12 +312,12 @@ color: rgb(59, 255, 0);</string>
      <item>
       <layout class="QHBoxLayout" name="DisplayIndicatorLayout" stretch="0,1">
        <property name="spacing">
-        <number>0</number>
+        <number>2</number>
        </property>
        <item>
         <layout class="QVBoxLayout" name="IndicatorLayout">
          <property name="spacing">
-          <number>0</number>
+          <number>6</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -358,7 +364,10 @@ color: rgb(59, 255, 0);</string>
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="DisplayPanel">
+        <layout class="QVBoxLayout" name="DisplayPanel" stretch="2,3">
+         <property name="spacing">
+          <number>10</number>
+         </property>
          <item>
           <widget class="QLabel" name="FloorNum">
            <property name="font">
@@ -437,7 +446,7 @@ color: rgb(59, 255, 0);</string>
         <number>1</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" name="DestinationSelection" stretch="2,0,0">
+        <layout class="QHBoxLayout" name="DestinationSelection" stretch="0,2,1">
          <item>
           <widget class="QLabel" name="DestinationLabel">
            <property name="font">
@@ -452,7 +461,7 @@ color: rgb(59, 255, 0);</string>
             <enum>QFrame::NoFrame</enum>
            </property>
            <property name="text">
-            <string> Floor</string>
+            <string> Dest:</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
@@ -491,18 +500,18 @@ color: rgb(59, 255, 0);</string>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="ElevatorAltButtonsView">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="OpenCloseButtonsView">
          <item>
-          <widget class="QPushButton" name="SwapStratButton_4">
+          <widget class="QPushButton" name="OpenDoorButton">
            <property name="text">
             <string>Open Door</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="SwapStratButton_5">
+          <widget class="QPushButton" name="CloseDoorButton">
            <property name="text">
             <string>Close Door</string>
            </property>
@@ -511,14 +520,14 @@ color: rgb(59, 255, 0);</string>
         </layout>
        </item>
        <item>
-        <widget class="QPushButton" name="SwapStratButton_3">
+        <widget class="QPushButton" name="HelpButton">
          <property name="text">
           <string>Help</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="SwapStratButton_2">
+        <widget class="QPushButton" name="FireButton">
          <property name="text">
           <string>Fire</string>
          </property>
@@ -587,8 +596,8 @@ color: rgb(59, 255, 0);</string>
    <zorder>horizontalLayoutWidget_3</zorder>
    <zorder>verticalLayoutWidget_2</zorder>
    <zorder>verticalLayoutWidget_3</zorder>
+   <zorder>Line1</zorder>
    <zorder>Line2</zorder>
-   <zorder>Line2_2</zorder>
    <zorder>Header</zorder>
   </widget>
  </widget>

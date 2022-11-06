@@ -3,13 +3,15 @@
 
 #include "Elevator.h"
 
-class FireButton : public Button {
+class FireButton {
     public:
-        FireButton();
+        FireButton(Elevator* elevator);
         void press();
+        void turnOff();
 
     private:
-        Elevator* Elevator;
+        Elevator* elevator;
+        bool on;
 };
 
 #endif

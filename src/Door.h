@@ -3,9 +3,11 @@
 
 #include "Elevator.h"
 
+class Elevator;
+
 class Door {
     public:
-        Door();
+        Door(Elevator* elevator);
         bool openDoor();
         bool closeDoor();
     private:

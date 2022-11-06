@@ -1,23 +1,36 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
-#include <string>
+#include <QString>
 #include "Display.h"
-#include "Speaker.h"
 #include "Door.h"
-#include "FloorSensor.h"
-#include "FloorButton.h"
+#include "FloorButtons.h"
 #include "DestinationButton.h"
 #include "CloseDoorButton.h"
 #include "OpenDoorButton.h"
 #include "HelpButton.h"
 #include "FireButton.h"
+#include "ECS.h"
 
-class Elevator {
+class ECS;
+class FloorButtons;
+class DestinationButton;
+class Display;
+class Door;
+class CloseDoorButton;
+class OpenDoorButton;
+class FireButton;
+class HelpButton;
+
+class Elevator : public QObject {
     public:
-        Elevator();
+        explicit Elevator(QObject *parent = nullptr);
+        Elevator(ECS* ecs);
+        ~Elevator();
+
+
         void stop();
-        void start(const std::string& direction);
+        void start(QString direction);
         void newFloor(int floorNum);
         void carRequest(int floorNum);
         void openRequest();
@@ -26,23 +39,26 @@ class Elevator {
         void outputDoorObstructed();
         void outputOverload();
         void outputPowerOutage();
-        //yet to decide on constants for display messages and speaker messages 
+
+
+    protected:
+        static int nextElevatorNum;
 
     private:
         int carNum;
         int floorNum;
-        std::string direction;
+        QString direction;
         bool idle;
         Display* display;
-        Speaker* speaker;
         Door* door;
-        FloorSensor* floorSensor;
-        FloorButton* floorButton;
+        FloorButtons* floorButton;
         DestinationButton* destButton;
         CloseDoorButton* closeDoorButton;
         OpenDoorButton* openDoorButton;
         HelpButton* helpButton;
         FireButton* fireButton;
+        ECS* theECS;
+        Q_OBJECT
 
 };
 

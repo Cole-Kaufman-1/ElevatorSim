@@ -21,11 +21,21 @@ resources_dir = res
 
 SOURCES += \
     $${source_dir}/main.cpp \
-    $${source_dir}/mainwindow.cpp
+    $${source_dir}/mainwindow.cpp \
+    src/CloseDoorButton.cpp \
+    src/DestinationButton.cpp \
+    src/Display.cpp \
+    src/Door.cpp \
+    src/ECS.cpp \
+    src/Elevator.cpp \
+    src/FireButton.cpp \
+    src/Floor.cpp \
+    src/FloorButtons.cpp \
+    src/HelpButton.cpp \
+    src/OpenDoorButton.cpp
 
 HEADERS += \
     $${source_dir}/Basic.h \
-    $${source_dir}/Button.h \
     $${source_dir}/CloseDoorButton.h \
     $${source_dir}/DestinationButton.h \
     $${source_dir}/Display.h \
@@ -34,14 +44,12 @@ HEADERS += \
     $${source_dir}/Elevator.h \
     $${source_dir}/FireButton.h \
     $${source_dir}/Floor.h \
-    $${source_dir}/FloorButton.h \
-    $${source_dir}/FloorSensor.h \
+    $${source_dir}/FloorButtons.h \
     $${source_dir}/HelpButton.h \
     $${source_dir}/IStrategy.h \
     $${source_dir}/OpenDoorButton.h \
     $${source_dir}/Opportunistic.h \
-    $${source_dir}/Person.h \
-    $${source_dir}/Speaker.h \
+    $${source_dir}/User.h \
     $${source_dir}/mainwindow.h
 
 FORMS += \

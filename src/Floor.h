@@ -1,23 +1,31 @@
 #ifndef FLOOR_H
 #define FLOOR_H
 
-#include <string>;
-#include "FloorButton.h";
-#include "ECS.h";
+#include <string>
+#include "FloorButtons.h"
+#include "ECS.h"
+
+class ECS;
+class FloorButtons;
 
 class Floor {
     public:
-        Floor(int floorNum, ECS* ecs, FloorButton* floorButton);
+        Floor(ECS* ecs);
         void serviced(const std::string& direction);
 
-        FloorButton getFloorButton();
-        FloorButton setFloorButton();
-        ECS getECS();
-        ECS setECS();
+        FloorButtons* getFloorButton();
+        void setFloorButton();
+
+        ECS* getECS();
+        void setECS();
+
+    protected:
+        static int nextFloorNum;
+
     private:
         int floorNum;
         ECS* theECS;
-        FloorButton* floorButton;
+        FloorButtons* floorButtons;
 };
 
 #endif
