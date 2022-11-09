@@ -20,7 +20,7 @@ ECS::ECS(int numElevators, int numFloors, MainWindow* w, User* u): w(w), u(u), n
 }
 
 ECS::~ECS(){
-
+    delete currentStrategy;
 }
 
 QSet<int>* ECS::getUpRequests() {
@@ -45,7 +45,9 @@ bool ECS::moveIdle(const QString& dir, int floorNum) {
     }
 }
 
+//checks if elevators are passing in the respective directions of a floor request
 bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
+    //function isn't needed in AI strategy
     if (swappedStrat) {
         return false;
     }
@@ -59,7 +61,7 @@ bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
     }
     else if (dir == "down"){
         for (int i = 0; i < numElevators; ++i){
-            Elevator* e = &elevators->at(i);
+            Elevator e = elevators->at(i);
             if (e->getDirection() == dir && e->getFloorNum()> floorNum) {
                 return true;
             }
@@ -68,6 +70,7 @@ bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
     return false;
 }
 
+//checks if an elevator is idle at the location of a request
 bool ECS::isIdleAtLocation(int floorNum, const QString& dir) {
     for(int i = 0;i < numElevators;++i) {
         if(elevators->at(i).isIdle() && floorNum == elevators->at(i).getFloorNum()){
@@ -88,6 +91,7 @@ void ECS::carRequest(int carNum, int floorNum) {
 }
 
 void ECS::readyToMove(int carNum) {
+    //for Opportunistic
     if (!swappedStrat) {
         if (carRequests.values().at(0) > elevators->at(carNum - 1).getFloorNum()){
             elevators->at(carNum - 1).start("up");
@@ -96,6 +100,7 @@ void ECS::readyToMove(int carNum) {
             elevators->at(carNum - 1).start("down");
         }
     }
+    //for AI
     else {
         if (elevators->at(carNum - 1).getFloorsToVisit()->at(0) > elevators->at(carNum - 1).getFloorNum()) {
             elevators->at(carNum - 1).start("up");
@@ -162,6 +167,7 @@ void ECS::setFloors(std::vector<Floor>* f) {
     floors = f;
 }
 
+//creates a new event loop that delays travel between floors
 void ECS::delay(int ms) {
     QTimer timer;
     QEventLoop loop;

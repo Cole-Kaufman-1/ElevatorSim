@@ -2,6 +2,7 @@
 #define ISTRATEGY_H
 #include <QString>
 
+//Abstract strategy interface for Opportunistic and AI strategies
 class IStrategy {
     public:
         virtual ~IStrategy() = default;

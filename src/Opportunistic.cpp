@@ -4,18 +4,21 @@
 Opportunistic::Opportunistic(ECS* ecs): ecs(ecs) {}
 
 void Opportunistic::makeDecision(int floorNum, int carNum, const QString& dir) {
+    //handle up floor request
     if (dir == "up" && ecs->getUpRequests()->contains(floorNum)) {
         ecs->getUpRequests()->remove(floorNum);
         ecs->getFloors()->at(floorNum - 1).serviced(dir);
         ecs->getElevators()->at(carNum - 1).setCameFromFloorReq(true);
         ecs->getElevators()->at(carNum - 1).stop();
     }
+    //handle down floor request
     else if (dir == "down" && ecs->getDownRequests()->contains(floorNum)) {
         ecs->getDownRequests()->remove(floorNum);
         ecs->getFloors()->at(floorNum - 1).serviced(dir);
         ecs->getElevators()->at(carNum - 1).setCameFromFloorReq(true);
         ecs->getElevators()->at(carNum - 1).stop();
     }
+    //handle car request
     else if (ecs->getCarRequests()->values(carNum).contains(floorNum)) {
         ecs->getCarRequests()->remove(carNum, floorNum);
         std::cout << "Destination button for floor " << floorNum << " turns off" << std::endl;
@@ -24,10 +27,12 @@ void Opportunistic::makeDecision(int floorNum, int carNum, const QString& dir) {
         ecs->getElevators()->at(carNum - 1).stop();
         ecs->getElevators()->at(carNum - 1).setIdle();
     }
+    //handles edges cases of halting and stopping at the 1st floor
     else if(floorNum == 1 || ecs->getElevators()->at(carNum - 1).isOperationHalted()) {
         ecs->getElevators()->at(carNum - 1).stop();
         ecs->getElevators()->at(carNum - 1).setIdle();
     }
+    //continue moving
     else {
         ecs->updateFloorDisplay(floorNum);
         ecs->getElevators()->at(carNum - 1).setFloorNum(floorNum);

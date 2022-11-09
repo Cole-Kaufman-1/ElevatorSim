@@ -156,7 +156,6 @@ void Elevator::overloadButtonPressed() {
     }
 }
 
-
 void Elevator::powerOutageButtonPressed() {
     // can only be pressed once per floor as the elevator moves in response to this button press
     if (!powerOutageButtonOn) {

@@ -12,6 +12,14 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     initConnections();
 }
 
+MainWindow::~MainWindow() {
+    delete user;
+    delete ecs;
+    elevators.clear();
+    floors.clear();
+    delete ui;
+}
+
 void MainWindow::initConnections() {
     connect(ui->FloorButtonUp, &QPushButton::pressed, this, &MainWindow::pressFloorUp);
     connect(ui->FloorButtonDown, &QPushButton::pressed, this, &MainWindow::pressFloorDown);
@@ -33,20 +41,18 @@ void MainWindow::initSimulator(int numElevators,int numFloors) {
     //create ECS
     ecs = new ECS(DEFAUlT_NUM_ELEVATORS, DEFAULT_NUM_FLOORS, this, user);
     //create floor and elevator objects
+    elevators.reserve(DEFAUlT_NUM_ELEVATORS);
     for (int i = 0; i < numElevators; ++i) {
-        elevators.push_back(*(new Elevator(ecs)));
+        elevators.emplace_back(*(new Elevator(ecs)));
     }
+    floors.reserve(DEFAULT_NUM_FLOORS);
     for (int i = 0; i < numFloors; ++i) {
-        floors.push_back(*(new Floor(ecs, DEFAULT_NUM_FLOORS)));
+        floors.emplace_back(*(new Floor(ecs, DEFAULT_NUM_FLOORS)));
     }
     ecs->setElevators(&elevators);
     ecs->setFloors(&floors);
     std::cout << "**Initialized Simulation**\n" << std::endl;
 
-}
-
-MainWindow::~MainWindow() {
-    delete ui;
 }
 
 void MainWindow::pressFloorUp() {
