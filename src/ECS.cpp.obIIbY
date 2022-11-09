@@ -1,0 +1,119 @@
+#include "ECS.h"
+#include "IStrategy.h"
+#include "Opportunistic.h"
+#include "Basic.h"
+
+std::vector<IStrategy*> ECS::strategies = {new Opportunistic(), new Basic()};
+
+ECS::ECS(int numElevators, int numFloors, QObject* parent): numElevators(numElevators), numFloors(numFloors) {
+    setParent(parent);
+    currentStrategy = strategies.at(0);
+}
+
+ECS::~ECS(){
+
+}
+
+QSet<int> ECS::getUpRequests() {
+    return floorRequestsUp;
+}
+
+QSet<int> ECS::getDownRequests() {
+    return floorRequestsDown;
+}
+
+std::vector<Elevator*> ECS::getElevators() {
+    return elevators;
+}
+
+std::vector<Floor*> ECS::getFloors() {
+    return floors;
+}
+
+void ECS::floorRequest(const QString& dir, int floorNum) {
+    if (dir == "up") {
+        floorRequestsUp.insert(floorNum);
+    }
+    else {
+        floorRequestsDown.insert(floorNum);
+    }
+    if (moveIdle(dir, floorNum)) {
+        for(int i = 0;i < numElevators;++i) {
+            if(elevators.at(i)->isIdle()) {
+                elevators.at(i)->start(dir);
+            }
+        }
+    }
+}
+
+bool ECS::moveIdle(const QString& dir, int floorNum) {
+    if(isElevatorPassing(dir, floorNum)){
+        return false;
+    }
+    else{
+        return true;
+    }
+}
+
+bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
+    if (dir == "up") {
+        for (int i = 0; i < numElevators; ++i){
+            Elevator* e = elevators.at(i);
+            if (e->getDirection() == dir && e->getFloorNum() < floorNum) {
+                return false;
+            }
+            delete e;
+        }
+    }
+    else{
+        for (int i = 0; i < numElevators; ++i){
+            Elevator* e = elevators.at(i);
+            if (e->getDirection() == dir && e->getFloorNum()> floorNum) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+void ECS::newFloor(int floorNum, int carNum) {
+
+}
+
+void ECS::carRequest(int carNum, int floorNum) {
+
+}
+
+void ECS::readyToMove(int carNum) {
+
+}
+
+void ECS::changeStrategy() {
+
+}
+
+void ECS::handleHelp(int floorNum, int carNum) {
+
+}
+
+void ECS::handleFire(int floorNum, int carNum) {
+
+}
+
+void ECS::handleOverload(int floorNum, int carNum) {
+
+}
+
+void ECS::handlePowerOutage(int floorNum, int carNum) {
+
+}
+
+
+void ECS::setElevators(std::vector<Elevator*>* e) {
+    elevators = *e;
+}
+
+void ECS::setFloors(std::vector<Floor*>* f) {
+    floors = *f;
+}
+

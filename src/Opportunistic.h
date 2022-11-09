@@ -2,13 +2,15 @@
 #define OPPORTUNISTIC_H
 
 #include "IStrategy.h"
+#include "ECS.h"
 
 class Opportunistic : public IStrategy {
     public:
-        void executeStrategy();
+        Opportunistic(ECS* ecs);
+        void makeDecision(int floorNum, int carNum, const QString& dir);
+
     private:
-        void makeDecision(int floorNum, int carNum);
-        void moveIdle(int floorNum, int carNum);
+        ECS* ecs;
 };
 
 #endif

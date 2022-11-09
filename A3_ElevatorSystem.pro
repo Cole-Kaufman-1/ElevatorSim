@@ -22,32 +22,19 @@ resources_dir = res
 SOURCES += \
     $${source_dir}/main.cpp \
     $${source_dir}/mainwindow.cpp \
-    src/CloseDoorButton.cpp \
-    src/DestinationButton.cpp \
-    src/Display.cpp \
-    src/Door.cpp \
+    src/AI.cpp \
     src/ECS.cpp \
     src/Elevator.cpp \
-    src/FireButton.cpp \
     src/Floor.cpp \
-    src/FloorButtons.cpp \
-    src/HelpButton.cpp \
-    src/OpenDoorButton.cpp
+    src/Opportunistic.cpp \
+    src/User.cpp
 
 HEADERS += \
-    $${source_dir}/Basic.h \
-    $${source_dir}/CloseDoorButton.h \
-    $${source_dir}/DestinationButton.h \
-    $${source_dir}/Display.h \
-    $${source_dir}/Door.h \
+    $${source_dir}/AI.h \
     $${source_dir}/ECS.h \
     $${source_dir}/Elevator.h \
-    $${source_dir}/FireButton.h \
     $${source_dir}/Floor.h \
-    $${source_dir}/FloorButtons.h \
-    $${source_dir}/HelpButton.h \
     $${source_dir}/IStrategy.h \
-    $${source_dir}/OpenDoorButton.h \
     $${source_dir}/Opportunistic.h \
     $${source_dir}/User.h \
     $${source_dir}/mainwindow.h

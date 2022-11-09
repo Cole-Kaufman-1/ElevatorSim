@@ -2,45 +2,62 @@
 #define ECS_H
 
 #include <iostream>
-#include <vector>
+#include <QSet>
 #include <QObject>
-#include <map>
+#include <QMultiMap>
+#include "User.h"
 #include "Elevator.h"
 #include "IStrategy.h"
 #include "Floor.h"
+#include "mainwindow.h"
 
 class Floor;
+class Elevator;
+class MainWindow;
 
-class ECS : public QObject  {
+class ECS  {
     public:
-        explicit ECS(QObject *parent = nullptr);
-        ECS(int numElevators, int numFloors);
+        ECS(int numElevators, int numFloors, MainWindow* w, User* u);
         ~ECS();
 
+        QSet<int>* getUpRequests();
+        QSet<int>* getDownRequests();
+        QMultiMap<int, int>* getCarRequests();
+        std::vector<Elevator>* getElevators();
+        std::vector<Floor>* getFloors();
+        void setElevators(std::vector<Elevator>*);
+        void setFloors(std::vector<Floor>*);
+        User* getUser();
 
-        std::map<int, QString> getRequests();
-        std::vector<Elevator*> getElevators();
-
-        void floorRequest(QString, int floorNum);
+        void floorRequest(const QString& dir, int floorNum);
         void newFloor(int floorNum, int carNum);
         void carRequest(int carNum, int floorNum);
         void readyToMove(int carNum);
+        bool moveIdle(const QString& dir, int floorNum);
         void changeStrategy();
-        void handleHelp(int floorNum, int carNum);
-        void handleFire(int floorNum, int carNum);
-        void handleOverload(int floorNum, int carNum);
-        void handlePowerOutage(int floorNum, int carNum);
+        void handleCloseDoorButton(int carNum);
+        void handleFire();
+        void handleOverload(int carNum);
+        void handleObstDoor();
+        void handlePowerOutage();
+        void updateFloorDisplay(int floorNum);
 
     private:
-        std::vector<Elevator*> elevators;
-        std::vector<Floor*> floors;
-        std::map<int, QString> floorRequests;
-        std::map<int, int> carRequests;
+        MainWindow* w;
+        User* u;
+        bool isElevatorPassing(const QString& dir, int floorNum);
+        bool isIdleAtLocation(int floorNum, const QString& dir);
+        void delay(int ms);
+        std::vector<Elevator>* elevators;
+        std::vector<Floor>* floors;
+        QSet<int> floorRequestsUp;
+        QSet<int> floorRequestsDown;
+        QMultiMap<int, int> carRequests;
         int numElevators;
         int numFloors;
         IStrategy* currentStrategy;
-        std::vector<IStrategy> strategies;
-        Q_OBJECT
+        static const QStringList emergencyMsgList;
+        bool swappedStrat;
 
 };
 

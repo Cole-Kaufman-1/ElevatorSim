@@ -7,23 +7,25 @@
 
 class ECS;
 
-class Floor {
+class Floor : public QObject {
     public:
+        explicit Floor(QObject *parent = nullptr);
         Floor(ECS* ecs, int maxFloor);
         void serviced(const QString& dir);
         int getFloorNum();
         void pressUp();
         void pressDown();
 
+
     private:
         int floorNum;
-        int maxFloor;
         bool upWaiting;
         bool downWaiting;
         static int nextFloorID;
         ECS* ecs;
         void turnOffUp();
         void turnOffDown();
+        Q_OBJECT
 };
 
 #endif

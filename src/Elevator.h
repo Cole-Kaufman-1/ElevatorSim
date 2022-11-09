@@ -1,64 +1,62 @@
 #ifndef ELEVATOR_H
 #define ELEVATOR_H
 
+#include <QObject>
 #include <QString>
-#include "Display.h"
-#include "Door.h"
-#include "FloorButtons.h"
-#include "DestinationButton.h"
-#include "CloseDoorButton.h"
-#include "OpenDoorButton.h"
-#include "HelpButton.h"
-#include "FireButton.h"
+#include <QStringList>
+#include "ui_mainwindow.h"
 #include "ECS.h"
+#include <QTimer>
+#include <QEventLoop>
 
 class ECS;
-class FloorButtons;
-class DestinationButton;
-class Display;
-class Door;
-class CloseDoorButton;
-class OpenDoorButton;
-class FireButton;
-class HelpButton;
 
-class Elevator : public QObject {
+class Elevator{
     public:
-        explicit Elevator(QObject *parent = nullptr);
         Elevator(ECS* ecs);
         ~Elevator();
 
+        const QString& getDirection() const;
+        int getFloorNum() const;
+        int getCarNum() const;
+        void setFloorNum(int newFloorNum);
+        void setIdle();
 
         void stop();
-        void start(QString direction);
+        void start(const QString& dir);
         void newFloor(int floorNum);
         void carRequest(int floorNum);
-        void openRequest();
-        void closeRequest();
-        void outputFireEvent();
-        void outputDoorObstructed();
-        void outputOverload();
-        void outputPowerOutage();
+        bool isIdle() const;
+        void openDoor();
+        void closeDoor();
+        void helpButtonPressed();
+        void fireButtonPressed();
+        void doorObstButtonPressed();
+        void overloadButtonPressed();
+        void powerOutageButtonPressed();
+        void closeDoorButtonPressed();
+        void openDoorButtonPressed();
+        bool isDoorOpen() const;
+        bool isOperationHalted() const;
 
-
-    protected:
-        static int nextElevatorNum;
 
     private:
         int carNum;
         int floorNum;
-        QString direction;
+        int doorObstCount;
         bool idle;
-        Display* display;
-        Door* door;
-        FloorButtons* floorButton;
-        DestinationButton* destButton;
-        CloseDoorButton* closeDoorButton;
-        OpenDoorButton* openDoorButton;
-        HelpButton* helpButton;
-        FireButton* fireButton;
-        ECS* theECS;
-        Q_OBJECT
+        bool doorOpen;
+        bool fireButtonOn;
+        bool helpButtonOn;
+        bool overloadButtonOn;
+        bool powerOutageButtonOn;
+        bool openDoorButtonOn;
+        QString direction;
+        ECS* ecs;
+        static int nextElevatorNum;
+        static const QStringList emergencyMsgList;
+        void delay(int ms);
+
 
 };
 
