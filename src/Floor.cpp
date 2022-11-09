@@ -40,7 +40,7 @@ void Floor::serviced(const QString& dir) {
     if(dir == "up"){
         turnOffUp();
     }
-    else {
+    else if(dir == "down") {
         turnOffDown();
     }
 }

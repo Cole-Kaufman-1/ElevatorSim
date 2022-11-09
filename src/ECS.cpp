@@ -16,6 +16,7 @@ ECS::ECS(int numElevators, int numFloors, MainWindow* w, User* u): w(w), u(u), n
     //set initial strategy to opportunistic
     currentStrategy = new Opportunistic(this);
     swappedStrat = false;
+
 }
 
 ECS::~ECS(){
@@ -32,20 +33,7 @@ QSet<int>* ECS::getDownRequests() {
 
 
 void ECS::floorRequest(const QString& dir, int floorNum) {
-    if (dir == "up") {
-        floorRequestsUp.insert(floorNum);
-    }
-    else {
-        floorRequestsDown.insert(floorNum);
-    }
-    if (moveIdle(dir, floorNum)) {
-        for(int i = 0;i < numElevators;++i) {
-            if(elevators->at(i).isIdle()) {
-                elevators->at(i).start(dir);
-                return;
-            }
-        }
-    }
+    currentStrategy->floorRequest(dir, floorNum);
 }
 
 bool ECS::moveIdle(const QString& dir, int floorNum) {
@@ -58,6 +46,9 @@ bool ECS::moveIdle(const QString& dir, int floorNum) {
 }
 
 bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
+    if (swappedStrat) {
+        return false;
+    }
     if (dir == "up") {
         for (int i = 0; i < numElevators; ++i){
             Elevator e = elevators->at(i);
@@ -66,7 +57,7 @@ bool ECS::isElevatorPassing(const QString& dir, int floorNum) {
             }
         }
     }
-    else{
+    else if (dir == "down"){
         for (int i = 0; i < numElevators; ++i){
             Elevator* e = &elevators->at(i);
             if (e->getDirection() == dir && e->getFloorNum()> floorNum) {
@@ -88,36 +79,38 @@ bool ECS::isIdleAtLocation(int floorNum, const QString& dir) {
 }
 
 void ECS::newFloor(int newfloorNum, int carNum) {
-    delay(1000);
+    delay(1500);
     currentStrategy->makeDecision(newfloorNum, carNum, elevators->at(carNum - 1).getDirection());
 }
 
 void ECS::carRequest(int carNum, int floorNum) {
-    if (!carRequests.values(carNum).contains(floorNum)) {
-        carRequests.insert(carNum, floorNum);
-        std::cout << "Destination button for floor " << floorNum << " illuminates" << std::endl;
-    }
-
-    //if the elevator door isn't closed at the time of the request send another in 10 seconds
-    if (elevators->at(carNum - 1).isDoorOpen()) {
-        QTimer::singleShot(10000, w, &MainWindow::pressDestinationButton);
-    }
-    else {
-        readyToMove(carNum);
-    }
+    currentStrategy->carRequest(carNum, floorNum);
 }
 
 void ECS::readyToMove(int carNum) {
-    if (carRequests.values().at(0) > elevators->at(carNum - 1).getFloorNum()){
-        elevators->at(carNum - 1).start("up");
+    if (!swappedStrat) {
+        if (carRequests.values().at(0) > elevators->at(carNum - 1).getFloorNum()){
+            elevators->at(carNum - 1).start("up");
+        }
+        else {
+            elevators->at(carNum - 1).start("down");
+        }
     }
     else {
-        elevators->at(carNum - 1).start("down");
+        if (elevators->at(carNum - 1).getFloorsToVisit()->at(0) > elevators->at(carNum - 1).getFloorNum()) {
+            elevators->at(carNum - 1).start("up");
+        }
+        else {
+            elevators->at(carNum - 1).start("down");
+        }
     }
 }
 
 void ECS::changeStrategy() {
-    currentStrategy = new AI();
+    delete currentStrategy;
+    currentStrategy = new AI(this);
+    swappedStrat = true;
+    std::cout << "**Swapped to AI strategy**" << std::endl;
 }
 
 void ECS::handleCloseDoorButton(int carNum) {
@@ -191,5 +184,13 @@ std::vector<Elevator>* ECS::getElevators() {
 
 std::vector<Floor>* ECS::getFloors() {
     return floors;
+}
+
+int ECS::getNumElevators() {
+    return numElevators;
+}
+
+MainWindow* ECS::getMainWindow() {
+    return w;
 }
 

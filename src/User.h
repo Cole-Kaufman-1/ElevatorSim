@@ -4,10 +4,10 @@
 class User {
     public:
         User(int currentFloor=1);
-        bool inElevator();
+        bool inElevator() const;
 
-        int getFloor();
-        int getCarNum();
+        int getFloor() const;
+        int getCarNum() const ;
 
         void setFloor(int num);
         void setCarNum(int num);

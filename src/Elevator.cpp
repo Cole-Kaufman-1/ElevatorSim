@@ -7,11 +7,12 @@
 
 
 int Elevator::nextElevatorNum = 0;
-const QStringList Elevator::emergencyMsgList = {
-    "Fire button pressed, please disembark once the next floor is reached",
-    "Door blocked repeatedly, please unobstruct door to proceed",
-    "Elevator is overloaded, please reduce load to proceed",
-    "A power outage has occured, please disembark once the next floor is reached"
+const QStringList Elevator::emergencySpeakerList = {
+    "(speaker system) Fire button pressed, please disembark once the next floor is reached",
+    "(speaker system) Door blocked repeatedly, please unobstruct door to proceed",
+    "(speaker system) Elevator is overloaded, please reduce load to proceed",
+    "(speaker system) A power outage has occured, please disembark once the next floor is reached",
+    "(speaker system) Connecting to building safety, if no response a 911 call will be placed"
 };
 
 Elevator::Elevator(ECS* e): ecs(e), carNum(++nextElevatorNum), floorNum(1), direction(""), doorObstCount(0) {
@@ -35,7 +36,7 @@ void Elevator::stop() {
 
 void Elevator::openDoor() {
     //only open the door if it's currently closed and either the user is in the elevator or the operation isn't haulted (fire or power outage)
-    if (!doorOpen && (ecs->getUser()->inElevator() || !isOperationHalted())) {
+    if ((!doorOpen && !isOperationHalted()) || cameFromFloorReq) {
         std::cout << "Elevator " << carNum << " rings its bell" << std::endl;
         doorOpen = true;
         std::cout << "Elevator " << carNum << " opens its doors" << std::endl;
@@ -77,6 +78,10 @@ void Elevator::setIdle() {
     idle = true;
 }
 
+void Elevator::setCameFromFloorReq(bool val) {
+    cameFromFloorReq = val;
+}
+
 void Elevator::start(const QString& dir) {
     direction = dir;
     if (dir == "up"){
@@ -89,7 +94,7 @@ void Elevator::start(const QString& dir) {
 
 void Elevator::newFloor(int newFloorNum) {
     doorObstCount = 0;
-    helpButtonOn = overloadButtonOn = fireButtonOn = powerOutageButtonOn = false;
+    helpButtonOn = overloadButtonOn = fireButtonOn = powerOutageButtonOn = cameFromFloorReq = false;
     ecs->newFloor(newFloorNum, carNum);
 }
 
@@ -114,7 +119,7 @@ void Elevator::helpButtonPressed() {
     if (!helpButtonOn) {
         helpButtonOn = true;
         std::cout << "Help button pressed" << std::endl;
-        std::cout << "(speaker system)Connecting to building safety, if no response a 911 call will be placed" << std::endl;
+        std::cout << emergencySpeakerList.at(4).toStdString() << std::endl;
     }
 }
 
@@ -123,7 +128,7 @@ void Elevator::fireButtonPressed() {
     if (!fireButtonOn) {
         fireButtonOn = true;
         std::cout << "Fire button pressed" << std::endl;
-        std::cout << "(speaker system) " << emergencyMsgList.at(0).toStdString() << std::endl;
+        std::cout << emergencySpeakerList.at(0).toStdString() << std::endl;
         ecs->handleFire();
     }
 }
@@ -135,7 +140,7 @@ void Elevator::doorObstButtonPressed() {
         std::cout << "Door Obstacle button pressed" << std::endl;
     }
     else if(doorObstCount == 2) {
-        std::cout << "(speaker system) " << emergencyMsgList.at(1).toStdString() << std::endl;
+        std::cout << emergencySpeakerList.at(1).toStdString() << std::endl;
         ecs->handleObstDoor();
         ++doorObstCount;
     }
@@ -146,7 +151,7 @@ void Elevator::overloadButtonPressed() {
     if(!overloadButtonOn) {
         overloadButtonOn = true;
         std::cout << "Overload button pressed" << std::endl;
-        std::cout << "(speaker system) " << emergencyMsgList.at(2).toStdString() << std::endl;
+        std::cout << emergencySpeakerList.at(2).toStdString() << std::endl;
         ecs->handleOverload(carNum);
     }
 }
@@ -157,7 +162,7 @@ void Elevator::powerOutageButtonPressed() {
     if (!powerOutageButtonOn) {
         powerOutageButtonOn = true;
         std::cout << "Power outage button pressed" << std::endl;
-        std::cout << "(speaker system) " << emergencyMsgList.at(3).toStdString() << std::endl;
+        std::cout << emergencySpeakerList.at(3).toStdString() << std::endl;
         ecs->handlePowerOutage();
     }
 }
@@ -172,8 +177,6 @@ void Elevator::openDoorButtonPressed() {
         closeDoor();
     }
     openDoorButtonOn = !openDoorButtonOn;
-
-
 }
 
 void Elevator::closeDoorButtonPressed() {
@@ -190,6 +193,10 @@ void Elevator::delay(int ms) {
     timer.connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
     timer.start(ms);
     loop.exec();
+}
+
+std::vector<int>* Elevator::getFloorsToVisit() {
+    return &floorsToVisit;
 }
 
 

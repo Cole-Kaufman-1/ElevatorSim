@@ -25,9 +25,13 @@ class ECS  {
         QMultiMap<int, int>* getCarRequests();
         std::vector<Elevator>* getElevators();
         std::vector<Floor>* getFloors();
+        int getNumElevators();
         void setElevators(std::vector<Elevator>*);
         void setFloors(std::vector<Floor>*);
         User* getUser();
+        MainWindow* getMainWindow();
+        static const QStringList emergencyMsgList;
+
 
         void floorRequest(const QString& dir, int floorNum);
         void newFloor(int floorNum, int carNum);
@@ -56,7 +60,6 @@ class ECS  {
         int numElevators;
         int numFloors;
         IStrategy* currentStrategy;
-        static const QStringList emergencyMsgList;
         bool swappedStrat;
 
 };

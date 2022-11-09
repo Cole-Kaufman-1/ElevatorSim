@@ -8,6 +8,7 @@
 #include "ECS.h"
 #include <QTimer>
 #include <QEventLoop>
+#include <vector>
 
 class ECS;
 
@@ -21,6 +22,8 @@ class Elevator{
         int getCarNum() const;
         void setFloorNum(int newFloorNum);
         void setIdle();
+        void setCameFromFloorReq(bool);
+        std::vector<int>* getFloorsToVisit();
 
         void stop();
         void start(const QString& dir);
@@ -51,10 +54,12 @@ class Elevator{
         bool overloadButtonOn;
         bool powerOutageButtonOn;
         bool openDoorButtonOn;
+        bool cameFromFloorReq;
         QString direction;
         ECS* ecs;
+        std::vector<int> floorsToVisit;
         static int nextElevatorNum;
-        static const QStringList emergencyMsgList;
+        static const QStringList emergencySpeakerList;
         void delay(int ms);
 
 

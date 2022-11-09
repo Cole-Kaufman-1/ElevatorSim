@@ -48,6 +48,7 @@ private slots:
     void pressDoorObstrButton();
     void pressOverloadButton();
     void pressPowerOutageButton();
+    void pressChangeStrategy();
 
 
 };

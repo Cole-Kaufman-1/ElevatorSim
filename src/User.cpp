@@ -2,15 +2,17 @@
 
 User::User(int c): currentFloor(c), inCarNum(0){}
 
-bool User::inElevator() {
-    if (inCarNum > 0) return true;
+bool User::inElevator() const {
+    if (inCarNum > 0) {
+        return true;
+    }
 }
 
-int User::getFloor() {
+int User::getFloor() const {
     return currentFloor;
 }
 
-int User::getCarNum() {
+int User::getCarNum() const{
     return inCarNum;
 }
 

@@ -24,6 +24,7 @@ void MainWindow::initConnections() {
     connect(ui->CloseDoorButton, &QPushButton::pressed, this, &MainWindow::pressCloseDoorButton);
     connect(ui->OpenDoorButton, &QPushButton::pressed, this, &MainWindow::pressOpenDoorButton);
     connect(ui->OpenDoorButton, &QPushButton::released, this, &MainWindow::pressOpenDoorButton);
+    connect(ui->SwapStratButton, &QPushButton::pressed, this, &MainWindow::pressChangeStrategy);
 }
 
 void MainWindow::initSimulator(int numElevators,int numFloors) {
@@ -96,6 +97,10 @@ void MainWindow::pressOpenDoorButton() {
 
 void MainWindow::pressCloseDoorButton() {
     elevators.at(0).closeDoorButtonPressed();
+}
+
+void MainWindow::pressChangeStrategy(){
+    ecs->changeStrategy();
 }
 
 void MainWindow::updateMsgDisplay(const QString& msg) {
